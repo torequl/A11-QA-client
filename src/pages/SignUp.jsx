@@ -1,6 +1,67 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/qestion-logo.png'
+import { toast } from 'react-toastify';
+import useAuth from '../hooks/useAuth';
+
 const SignUp = () => {
+
+    const navigate = useNavigate()
+
+    const { handleRegister, updateUserProfile, user } = useAuth()
+
+    const handleSignUp = (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const name = form.name.value;
+        const email = form.email.value;
+        const photoUrl = form.photoUrl.value;
+        const password = form.password.value;
+        const user = { name, email, photoUrl };
+
+        if (password.length < 6) {
+            toast.warn('Password at least 6 character')
+            return;
+        }
+        if (!/[A-Z]/.test(password)) {
+            toast.warn('Password must be one Uppercase letter')
+            return;
+        }
+        if (!/[a-z]/.test(password)) {
+            toast.warn('Password must be one Lowercase letter')
+            return;
+        }
+        handleRegister(email, password)
+        .then(data => console.log(data))
+            // .then(({ user }) => {
+            //     fetch('https://assignment-10-server-roan-eight.vercel.app/users', {
+            //         method: 'POST',
+            //         headers: {
+            //             'content-type': 'application/json'
+            //         },
+            //         body: JSON.stringify(user)
+            //     })
+            //         .then(res => res.json())
+            //         .then(data => console.log('User created ', data));
+
+            //     toast.success(user.email + " Sign-Up Successfully");
+            //     updateUserProfile({
+            //         displayName: name,
+            //         photoURL: photoUrl,
+            //     })
+            //         .then(() => {
+            //             navigate('/')
+            //         })
+            //         .catch((error) => {
+            //             console.log(error);
+            //             toast(error.message);
+            //         })
+            // })
+            .catch((error) => {
+                toast.error(error.message);
+            })
+    }
+
+
     return (
         <main className="w-full my-10 flex flex-col items-center justify-center sm:px-4">
             <div className="w-full space-y-6 text-gray-600 border py-10 sm:max-w-md">
@@ -13,7 +74,7 @@ const SignUp = () => {
                 </div>
                 <div className="bg-white p-4 sm:p-6 sm:rounded-lg">
                     <form
-                        onSubmit={(e) => e.preventDefault()}
+                        onSubmit={handleSignUp}
                         className="space-y-5"
 
                     >
@@ -22,8 +83,8 @@ const SignUp = () => {
                                 Name
                             </label>
                             <input
+                                name='name'
                                 type="text"
-                                required
                                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                             />
                         </div>
@@ -32,8 +93,8 @@ const SignUp = () => {
                                 Email
                             </label>
                             <input
+                                name='email'
                                 type="email"
-                                required
                                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                             />
                         </div>
@@ -42,8 +103,8 @@ const SignUp = () => {
                                 Password
                             </label>
                             <input
+                                name='password'
                                 type="password"
-                                required
                                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                             />
                         </div>
@@ -52,6 +113,7 @@ const SignUp = () => {
                                 Photo URL
                             </label>
                             <input
+                                name='photoUrl'
                                 type="url"
                                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                             />
@@ -65,7 +127,7 @@ const SignUp = () => {
                     <div className="mt-5">
                         <button className="w-full flex items-center justify-center gap-x-3 py-2.5 mt-5 border rounded-lg text-sm font-medium hover:bg-gray-50 duration-150 active:bg-gray-100">
                             <svg className="w-5 h-5" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <g clip-path="url(#clip0_17_40)">
+                                <g clipPath="url(#clip0_17_40)">
                                     <path d="M47.532 24.5528C47.532 22.9214 47.3997 21.2811 47.1175 19.6761H24.48V28.9181H37.4434C36.9055 31.8988 35.177 34.5356 32.6461 36.2111V42.2078H40.3801C44.9217 38.0278 47.532 31.8547 47.532 24.5528Z" fill="#4285F4" />
                                     <path d="M24.48 48.0016C30.9529 48.0016 36.4116 45.8764 40.3888 42.2078L32.6549 36.2111C30.5031 37.675 27.7252 38.5039 24.4888 38.5039C18.2275 38.5039 12.9187 34.2798 11.0139 28.6006H3.03296V34.7825C7.10718 42.8868 15.4056 48.0016 24.48 48.0016Z" fill="#34A853" />
                                     <path d="M11.0051 28.6006C9.99973 25.6199 9.99973 22.3922 11.0051 19.4115V13.2296H3.03298C-0.371021 20.0112 -0.371021 28.0009 3.03298 34.7825L11.0051 28.6006Z" fill="#FBBC04" />
