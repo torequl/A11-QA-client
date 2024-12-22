@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/qestion-logo.png'
 import { toast } from 'react-toastify';
 import useAuth from '../hooks/useAuth';
+import axios, { Axios } from 'axios';
 
 const SignUp = () => {
 
@@ -35,19 +36,12 @@ const SignUp = () => {
             toast.warn('Password must be one Lowercase letter')
             return;
         }
-        handleRegister(email, password)
-            .then(({ user }) => {
-                fetch('https://assignment-10-server-roan-eight.vercel.app/users', {
-                    method: 'POST',
-                    headers: {
-                        'content-type': 'application/json'
-                    },
-                    body: JSON.stringify(user)
-                })
-                    .then(res => res.json())
-                    .then(data => console.log('User created ', data));
 
-                toast.success(user.email + " Sign-Up Successfully");
+        handleRegister(email, password)
+            .then((userData) => {
+                axios.post('http://localhost:5000/users', user)
+                .then(res => console.log(res.data))
+                toast.success(userData.user.email + " Sign-Up Successfully");
                 updateUserProfile({
                     displayName: name,
                     photoURL: photoUrl,
@@ -62,6 +56,7 @@ const SignUp = () => {
             })
             .catch((error) => {
                 toast.error(error.message);
+                console.log(error);
             })
     }
 

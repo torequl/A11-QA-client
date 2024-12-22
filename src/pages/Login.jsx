@@ -1,15 +1,28 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/qestion-logo.png'
 import useAuth from '../hooks/useAuth';
+import { toast } from 'react-toastify';
 
 const Login = () => {
-
+    const navigate = useNavigate()
     const {handelLogin, handelGoogleLogin} = useAuth()
 
     const googleLogin = () => {
         handelGoogleLogin()
             .then(user => console.log(user))
             .catch(error => console.log(error))
+    };
+
+    const login = (e) => {
+        e.preventDefault();
+        const email = e.target.email.value;
+        const password = e.target.password.value;
+        handelLogin(email, password)
+        .then( ({user}) => {
+            toast.success(user.email + " Login Successfully");
+            navigate(location?.state ? location.state : '/')
+        })
+        .catch(error => toast.warn(error.message))
     }
 
     return (
@@ -22,7 +35,7 @@ const Login = () => {
                     </div>
                 </div>
                 <form
-                    onSubmit={(e) => e.preventDefault()}
+                    onSubmit={login}
                     className="space-y-5"
                 >
                     <div>
@@ -31,6 +44,7 @@ const Login = () => {
                         </label>
                         <input
                             type="email"
+                            name='email'
                             required
                             className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                         />
@@ -41,6 +55,7 @@ const Login = () => {
                         </label>
                         <input
                             type="password"
+                            name='password'
                             required
                             className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                         />

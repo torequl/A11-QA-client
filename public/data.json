@@ -1,0 +1,65 @@
+[
+    {
+        "productName": "EcoLife Water Bottle",
+        "productBrand": "EcoLife",
+        "productImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4yM3nmj0F1wYWR0CD9X10qJ8uva3Dri2IPA&s",
+        "queryTitle": "Is there a more sustainable water bottle?",
+        "boycottingReasonDetails": "The product uses non-recyclable plastic."
+    },
+    {
+        "productName": "FastCharge Pro Charger",
+        "productBrand": "FastCharge",
+        "productImage": "https://img.drz.lazcdn.com/static/bd/p/713339b699f6c368ae80992cc93ec863.png_720x720q80.png",
+        "queryTitle": "Are there alternatives to this charger?",
+        "boycottingReasonDetails": "Overheats frequently and poses a safety risk."
+    },
+    {
+        "productName": "UltraTech Headphones",
+        "productBrand": "UltraTech",
+        "productImage": "https://www.ultratech.com.bd/image/cache/catalog/products_2024/A4Tech-Fstyler-BH220-Bluetooth-Wireless-Headphone-600x600.png",
+        "queryTitle": "Can I find better quality headphones?",
+        "boycottingReasonDetails": "Poor sound quality despite high price."
+    },
+    {
+        "productName": "GreenGrow Fertilizer",
+        "productBrand": "GreenGrow",
+        "productImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYpta4VCWIJTD7b6xPpiM4YPDno_9DhUesvQ&s",
+        "queryTitle": "Is there an eco-friendly alternative to this fertilizer?",
+        "boycottingReasonDetails": "Contains chemicals harmful to the soil."
+    },
+    {
+        "productName": "ClearView Glass Cleaner",
+        "productBrand": "ClearView",
+        "productImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUyMRc61O8tRgKz0gkdRSWA6xPeC9ZpowCWQ&s",
+        "queryTitle": "Is there a natural glass cleaner available?",
+        "boycottingReasonDetails": "Contains ammonia which irritates the skin and eyes."
+    },
+    {
+        "productName": "SpeedFit Running Shoes",
+        "productBrand": "SpeedFit",
+        "productImage": "https://www.yellowshoes.com/cdn/shop/products/113130-43-SPEED_FIT_X-1_d7e634de-a864-4634-aa2c-ea80a4683d3b.jpg?v=1724914940&width=1080",
+        "queryTitle": "Are there better options for running shoes?",
+        "boycottingReasonDetails": "The soles wear out quickly, causing discomfort."
+    },
+    {
+        "productName": "CoolBreeze Air Conditioner",
+        "productBrand": "CoolBreeze",
+        "productImage": "https://www.coolbreeze.com.au/blog/wp-content/uploads/2017/10/AIRCON-BLOG-COVER-archive1.jpg",
+        "queryTitle": "Is there a more energy-efficient AC unit?",
+        "boycottingReasonDetails": "Consumes excessive electricity and has poor cooling performance."
+    },
+    {
+        "productName": "SkinGlow Face Cream",
+        "productBrand": "SkinGlow",
+        "productImage": "https://i.ebayimg.com/images/g/a68AAOSwTtNlfdHe/s-l400.jpg",
+        "queryTitle": "Are there safer skincare products?",
+        "boycottingReasonDetails": "Contains harmful chemicals that irritate the skin."
+    },
+    {
+        "productName": "QuickCook Microwave Oven",
+        "productBrand": "QuickCook",
+        "productImage": "https://content.jdmagicbox.com/quickquotes/images_main/quickcook-built-in-microwave-oven-28l-801627404-gf4wj85x.jpg?impolicy=queryparam&im=Resize=(360,360),aspect=fit",
+        "queryTitle": "Can I find a more reliable microwave oven?",
+        "boycottingReasonDetails": "Breaks down frequently and has poor warranty service."
+    }
+]

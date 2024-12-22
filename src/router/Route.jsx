@@ -7,6 +7,7 @@ import MyQueries from "../pages/MyQueries";
 import MyRecommendations from "../pages/MyRecommendations";
 import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
+import AddQueries from "../pages/AddQueries";
 
 const Route = createBrowserRouter([
     {
@@ -16,7 +17,8 @@ const Route = createBrowserRouter([
         children:[
             {
                 path: '/',
-                element: <Home/>
+                element: <Home/>,
+                loader: () => fetch('http://localhost:5000/recent-queries')
             },
             {
                 path: '/queries',
@@ -41,6 +43,10 @@ const Route = createBrowserRouter([
             {
                 path: '/sign-up',
                 element: <SignUp/>
+            },
+            {
+                path: '/add-queries',
+                element: <AddQueries/>
             },
         ]
     }
