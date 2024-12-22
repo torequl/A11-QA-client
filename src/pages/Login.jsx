@@ -1,7 +1,17 @@
 import { Link } from 'react-router-dom';
 import logo from '../assets/qestion-logo.png'
+import useAuth from '../hooks/useAuth';
 
 const Login = () => {
+
+    const {handelLogin, handelGoogleLogin} = useAuth()
+
+    const googleLogin = () => {
+        handelGoogleLogin()
+            .then(user => console.log(user))
+            .catch(error => console.log(error))
+    }
+
     return (
         <main className="w-full my-10 flex flex-col items-center justify-center px-4">
             <div className="max-w-sm w-full text-gray-600 space-y-5">
@@ -53,7 +63,9 @@ const Login = () => {
                         Sign in
                     </button>
                 </form>
-                <button className="w-full flex items-center justify-center gap-x-3 py-2.5 border rounded-lg text-sm font-medium hover:bg-gray-50 duration-150 active:bg-gray-100">
+                <button 
+                onClick={googleLogin}
+                className="w-full flex items-center justify-center gap-x-3 py-2.5 border rounded-lg text-sm font-medium hover:bg-gray-50 duration-150 active:bg-gray-100">
                     <svg className="w-5 h-5" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clipPath="url(#clip0_17_40)">
                             <path d="M47.532 24.5528C47.532 22.9214 47.3997 21.2811 47.1175 19.6761H24.48V28.9181H37.4434C36.9055 31.8988 35.177 34.5356 32.6461 36.2111V42.2078H40.3801C44.9217 38.0278 47.532 31.8547 47.532 24.5528Z" fill="#4285F4" />

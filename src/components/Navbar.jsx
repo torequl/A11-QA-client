@@ -1,11 +1,22 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from '../assets/qestion-logo.png'
+import useAuth from "../hooks/useAuth";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase.config";
 
 const Navbar = () => {
     const [state, setState] = useState(false)
 
-    // Replace javascript:void(0) path with your path
+    const { user } = useAuth()
+
+    const handleLogOut = () => {
+        signOut(auth)
+            .then(user => console.log(user))
+            .catch(error => console.log(error))
+    }
+
+
     const navigation = <>
         <li><Link className="hover" to='/'>Home</Link></li>
         <li><Link className="hover" to='/queries'>Queries</Link></li>
@@ -48,8 +59,10 @@ const Navbar = () => {
                     </ul>
                 </div>
                 <div className="hidden md:inline-block">
+                    {
+                        user ? <Link onClick={handleLogOut} to='sign-up' className="py-3 px-4 text-white bg-indigo-600 hover:bg-indigo-700 rounded-md shadow">Log Out</Link> :
                     <Link to='login' className="py-3 px-4 text-white bg-indigo-600 hover:bg-indigo-700 rounded-md shadow">Login</Link>
-                    <Link to='sign-up' className="py-3 px-4 text-white bg-indigo-600 hover:bg-indigo-700 rounded-md shadow">Sign Up</Link>
+                    }
                 </div>
             </div>
         </nav>
