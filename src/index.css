@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.hover:hover {
+    color: #0000ff;
+    font-weight: 500;
+}
