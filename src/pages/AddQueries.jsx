@@ -1,9 +1,11 @@
 import axios from "axios";
 import useAuth from "../hooks/useAuth";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const AddQueries = () => {
-
-    const {user} = useAuth();
+    const navigate = useNavigate()
+    const { user, setMyQueries } = useAuth();
 
     const handelSubmit = e => {
         e.preventDefault();
@@ -18,13 +20,25 @@ const AddQueries = () => {
         const userName = user.displayName;
         const userPhoto = user.photoURL;
         const timestamp = Date.now();
-        const queryData = {boycottingReasonDetails, queryTitle, productBrand, productImageURL, productName, userEmail, userName, timestamp, userPhoto}
+        const queryData = { boycottingReasonDetails, queryTitle, productBrand, productImageURL, productName, userEmail, userName, timestamp, userPhoto }
 
         axios.post('http://localhost:5000/add-query', queryData)
-        .then(res => {
-            console.log(res.data);
-            form.reset()
-        })
+            .then(res => {
+                console.log(res.data);
+                if (res.data.insertedId) {
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Your work has been saved",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    axios.get('http://localhost:5000/my-queries', { params: { email: user?.email } })
+                        .then(res => setMyQueries(res.data))
+                    navigate('/my-queries')
+                    form.reset()
+                }
+            })
     }
 
     return (

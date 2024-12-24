@@ -34,13 +34,26 @@ const MyQueries = () => {
 
 
     return (
-        <section className="mt-10 mx-auto px-4 max-w-screen-xl md:px-8">
+        <section className="mx-auto px-4 max-w-screen-xl md:px-8">
 
-            <div className="text-center">
-                <h1 className="text-3xl text-gray-800 font-semibold">
-                    Your Queries
-                </h1>
-            </div>
+            <section className="py-20" style={{ background: "linear-gradient(152.92deg, rgba(192, 132, 252, 0.2) 4.54%, rgba(232, 121, 249, 0.17) 34.2%, rgba(192, 132, 252, 0.1) 77.55%)" }}>
+                <div className="max-w-screen-xl mx-auto px-4 md:text-center md:px-8">
+                    <div className="max-w-xl space-y-3 md:mx-auto">
+                        <p className="text-gray-800 text-3xl font-semibold sm:text-4xl">
+                            Your Queries
+                        </p>
+                        <p className="text-gray-600">
+                            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident.
+                        </p>
+                    </div>
+                    <div className="mt-4">
+                        <Link to='/add-queries' className="inline-block py-2 px-4 text-white font-medium bg-gray-800 duration-150 hover:bg-gray-700 active:bg-gray-900 rounded-lg shadow-md hover:shadow-none">
+                            Add Queries
+                        </Link>
+                    </div>
+                </div>
+            </section>
+
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {
                     myQueries.map((item, i) => (
@@ -52,7 +65,7 @@ const MyQueries = () => {
                                 />
                                 <div className="p-4">
                                     <h3 className="text-lg font-semibold text-gray-800 truncate">
-                                    {item.queryTitle}
+                                        {item.queryTitle}
                                     </h3>
                                     <p className="text-sm text-gray-600 truncate">Brand: {item.productBrand}</p>
                                     <p className="mt-2 text-sm text-gray-500">
@@ -63,15 +76,15 @@ const MyQueries = () => {
                                     </p>
                                     <div className="mt-5 flex justify-between">
                                         <Link to={`/details/${item._id}`}>
-                                        <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
-                                            Details
-                                        </button>
+                                            <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+                                                Details
+                                            </button>
                                         </Link>
                                         <Link to={`/update/${item._id}`}>
-                                        <button
-                                        className="bg-indigo-500 text-white py-2 px-4 rounded hover:bg-blue-600">
-                                            Update
-                                        </button>
+                                            <button
+                                                className="bg-indigo-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+                                                Update
+                                            </button>
                                         </Link>
                                         <button
                                             onClick={() => handelDelete(item._id)}
