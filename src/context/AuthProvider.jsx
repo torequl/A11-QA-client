@@ -1,11 +1,11 @@
 import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, updateProfile } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../firebase.config";
+import axios from "axios";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext();
 
-// eslint-disable-next-line react/prop-types
 const AuthProvider = ({ children }) => {
 
     const [loading, setLoading] = useState(true);
@@ -13,6 +13,13 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState('');
 
     const googleProvider = new GoogleAuthProvider();
+
+    const [myQueries, setMyQueries] = useState([]);
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/my-queries', { params: { email: user?.email } })
+            .then(res => setMyQueries(res.data))
+    }, [user?.email]);
 
     // TODO: Sign Up with Email And Password
     const handleRegister = (email, password) => {
@@ -58,6 +65,8 @@ const AuthProvider = ({ children }) => {
         updateUserProfile,
         user,
         loading,
+        setMyQueries,
+        myQueries,
     }
 
     return (

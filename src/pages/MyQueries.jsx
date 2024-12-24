@@ -1,18 +1,10 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
 import Swal from "sweetalert2";
-import UpdateModal from "../components/UpdateModal";
+import { Link } from "react-router-dom";
 
 const MyQueries = () => {
-    const { user } = useAuth()
-
-    const [queries, setQueries] = useState([]);
-
-    useEffect(() => {
-        axios.get('http://localhost:5000/my-queries', { params: { email: user?.email } })
-            .then(res => setQueries(res.data))
-    }, [user?.email]);
+    const { myQueries, setMyQueries } = useAuth()
 
     const handelDelete = id => {
         Swal.fire({
@@ -33,16 +25,17 @@ const MyQueries = () => {
                     text: "Your file has been deleted.",
                     icon: "success"
                 });
-                const newData = queries.filter(data => data._id !== id);
-                setQueries(newData);
+                const newData = myQueries.filter(data => data._id !== id);
+                setMyQueries(newData);
             }
         });
 
     }
 
+
     return (
         <section className="mt-10 mx-auto px-4 max-w-screen-xl md:px-8">
-            <UpdateModal queries={queries}/>
+
             <div className="text-center">
                 <h1 className="text-3xl text-gray-800 font-semibold">
                     Your Queries
@@ -50,31 +43,36 @@ const MyQueries = () => {
             </div>
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {
-                    queries.map((item, i) => (
-                        <article className="max-w-md mx-auto mt-10 shadow-lg border rounded-md duration-300 hover:shadow-sm" key={i}>
-                            <div className="max-w-sm mx-auto bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
+                    myQueries.map((item, i) => (
+                        <article className="max-w-md mx-auto mt-10 rounded-md" key={i}>
+                            <div className="max-w-sm mx-auto bg-white border rounded-lg">
                                 <img
-                                    className="w-full h-48 object-cover"
+                                    className="w-full h-48 object-contain"
                                     src={item.productImageURL}
                                 />
                                 <div className="p-4">
                                     <h3 className="text-lg font-semibold text-gray-800 truncate">
-                                        Product Name: EcoLife Water Bottle
+                                    {item.queryTitle}
                                     </h3>
-                                    <p className="text-sm text-gray-600 truncate">Brand: EcoLife</p>
+                                    <p className="text-sm text-gray-600 truncate">Brand: {item.productBrand}</p>
                                     <p className="mt-2 text-sm text-gray-500">
-                                        Query: Is there a more sustainable water bottle?
+                                        Query: {item.boycottingReasonDetails}
+                                    </p>
+                                    <p className="mt-2 text-gray-800">
+                                        Product Name: {item.productName}
                                     </p>
                                     <div className="mt-5 flex justify-between">
+                                        <Link to={`/details/${item._id}`}>
                                         <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
                                             Details
                                         </button>
-                                        <button 
-                                        onClick={
-                                            () => document.getElementById('my_modal').showModal()}
+                                        </Link>
+                                        <Link to={`/update/${item._id}`}>
+                                        <button
                                         className="bg-indigo-500 text-white py-2 px-4 rounded hover:bg-blue-600">
                                             Update
                                         </button>
+                                        </Link>
                                         <button
                                             onClick={() => handelDelete(item._id)}
                                             className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">

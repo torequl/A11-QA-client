@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom";
 
 const RecentQueries = ({ loadedData }) => {
-    console.log(loadedData);
+
     return (
         <section className="mt-12 mx-auto px-4 max-w-screen-xl md:px-8">
             <div className="text-center">
@@ -14,23 +15,23 @@ const RecentQueries = ({ loadedData }) => {
             <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {
                     loadedData.map((item, i) => (
-                        <article className="max-w-md mx-auto mt-10 shadow-lg border rounded-md duration-300 hover:shadow-sm" key={i}>
-                            <div className="max-w-sm mx-auto bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
+                        <article className="max-w-md mx-auto mt-10 rounded-md" key={i}>
+                            <div className="max-w-sm mx-auto bg-white border rounded-lg">
                                 <img
-                                    className="w-full h-48 object-cover"
+                                    className="w-full h-48 object-contain"
                                     src={item.productImageURL}
                                 />
                                 <div className="p-4">
-                                    <h3 className="text-lg font-semibold text-gray-800 truncate">
-                                        Product Name: EcoLife Water Bottle
+                                    <h3 className="text-lg font-semibold text-gray-800">
+                                        {item.queryTitle}
                                     </h3>
-                                    <p className="text-sm text-gray-600 truncate">Brand: EcoLife</p>
+                                    <p className="text-sm text-gray-600 truncate">Brand: {item.productBrand}</p>
                                     <p className="mt-2 text-sm text-gray-500">
-                                        Query: Is there a more sustainable water bottle?
+                                        Query: {item.boycottingReasonDetails}
                                     </p>
-                                    <button className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
-                                        View Details
-                                    </button>
+                                    <Link to={`/details/${item._id}`}>
+                                        <button className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"> View Details</button>
+                                    </Link>
                                 </div>
                             </div>
                         </article>
