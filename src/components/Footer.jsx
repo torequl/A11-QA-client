@@ -5,14 +5,16 @@ const Footer = () => {
 
     const navigation = <>
         <li className="hover:text-blue-500"><Link to='/'>Home</Link></li>
-        <li className="hover:text-blue-500"><Link to='/queries'>Queries</Link></li>
-        <li className="hover:text-blue-500"><Link to='/recommendations-for-me'>Recommendations For Me</Link></li>
-        <li className="hover:text-blue-500"><Link to='/my-queries'>My Queries</Link></li>
-        <li className="hover:text-blue-500"><Link to='/my-recommendations'>My Recommendations</Link></li>
+        <li className="hover:text-blue-500"><Link to='/'>Queries</Link></li>
+        <li className="hover:text-blue-500"><Link to='/'>Recommendations For Me</Link></li>
+        <li className="hover:text-blue-500"><Link to='/'>My Queries</Link></li>
+        <li className="hover:text-blue-500"><Link to='/'>My Recommendations</Link></li>
     </>
 
     return (
-        <footer className="text-gray-500 bg-white px-4 py-5 max-w-screen-xl mx-auto md:px-8">
+
+        <div className="bg-blue-50 mt-20 py-6">
+            <footer className="text-gray-500 px-4 py-5 max-w-screen-xl mx-auto md:px-8">
             <div className="max-w-lg sm:mx-auto sm:text-center">
                 <img src={logo} className="w-32 sm:mx-auto" />
                 <p className="leading-relaxed mt-2 text-[15px]">
@@ -70,6 +72,7 @@ const Footer = () => {
                 }
             `}</style>
         </footer>
+        </div>
     );
 };
 

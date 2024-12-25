@@ -54,10 +54,10 @@ const MyQueries = () => {
             </section>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {myQueries.length > 0 || <h2 className="text-2xl">No Data Found</h2>}
+            {myQueries.length > 0 || <h2 className="text-2xl text-red-500 text-center py-10">No Data Found</h2>}
                 {
                     myQueries.map((item, i) => (
-                        <article className="mx-auto mt-10 rounded-md" key={i}>
+                        <article className="mx-auto mt-10 w-full rounded-md" key={i}>
                             <div className="mx-auto bg-white border rounded-lg">
                                 <img
                                     className="w-full h-48 object-contain"

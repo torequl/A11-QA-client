@@ -2,11 +2,23 @@ import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useEffect, useState } from "react";
+import { FaArrowCircleRight } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const ViewDetails = () => {
     const query = useLoaderData();
     const { user } = useAuth();
     const navigate = useNavigate();
+
+    const [recommendations, setRecommendations] = useState([]);
+
+    useEffect(() => {
+        axios.get(`http://localhost:5000/recommendations/${query._id}`)
+            .then(res => {
+                setRecommendations(res.data)
+            })
+    }, [query])
 
     const handelSubmitRecommendation = e => {
         e.preventDefault()
@@ -17,24 +29,24 @@ const ViewDetails = () => {
         const recommendationReason = form.recommendationReason.value;
         //--------------------------------------------------------------------------
         const queryId = query._id;
+        const userPhoto = user.photoURL;
         const recommendationEmail = user.email;
         const recommendationUserName = user.displayName;
         const currentDate = new Date().toLocaleDateString('en-UK');
-        const formData = { recommendationTitle, recommendedProductName, recommendedProductImageUrl, recommendationReason, queryId, recommendationEmail, recommendationUserName, currentDate }
+        const formData = { recommendationTitle, recommendedProductName, recommendedProductImageUrl, recommendationReason, queryId, recommendationEmail, recommendationUserName, userPhoto, currentDate }
 
         axios.post('http://localhost:5000/recommendation', formData)
             .then(res => {
                 if (res.data.insertedId) {
                     Swal.fire({
-                        title: "Deleted!",
-                        text: "Your file has been deleted.",
+                        title: "Success!",
+                        text: "Your Recommendation Added Successfully.",
                         icon: "success"
                     });
-                }   navigate(`/my-recommendations/${user.email}`)
+                } navigate(`/my-recommendations/${user.email}`)
             })
+            .catch(({response}) => toast.error(response.data.error))
     }
-
-    // console.log(query);
 
     return (
         <>
@@ -54,7 +66,7 @@ const ViewDetails = () => {
                         <div className="flex gap-2 items-center">
                             <div>
                                 <img referrerPolicy="no-referrer"
-                                className="w-14 rounded-full" src={query.userPhoto} alt={query.userName} />
+                                    className="w-14 rounded-full" src={query.userPhoto} alt={query.userName} />
                             </div>
                             <div>
                                 <h3 className="text-xl">{query.userName}</h3>
@@ -121,10 +133,37 @@ const ViewDetails = () => {
                         <button className="btn btn-primary w-11/12 mt-4">Add Recommendation</button>
                     </form>
                 </div>
-
             </div>
-            <div className="text-center my-10">
-                <Link className="btn btn-secondary">Show All Recommendations </Link>
+            <div className="divider my-10"></div>
+            <div className="my-10">
+                <h3 className="text-2xl font-bold uppercase text-center">Recommendations</h3>
+                {
+                    recommendations.map(items =>
+                        <article className="max-w-md mx-auto mt-4 hover:shadow-lg border rounded-md duration-300 shadow-sm" key={items._id}>
+                                <div className="flex items-center mt-2 pt-3 ml-4 mr-2">
+                                    <div className="flex-none w-10 h-10 rounded-full">
+                                        <img src={items.userPhoto} className="w-full h-full rounded-full" alt={items.recommendationUserName} />
+                                    </div>
+                                    <div className="ml-3">
+                                        <span className="block text-gray-900">{items.recommendationUserName}</span>
+                                        <span className="block text-gray-400 text-sm">{items.currentDate}</span>
+                                    </div>
+                                </div>
+                                <div className="pt-3 ml-4 mr-2 mb-3">
+                                    <h3 className="text-xl text-gray-900">
+                                        Title: {items.recommendationTitle}
+                                    </h3>
+                                    <p className="text-gray-600 flex items-center gap-2 text-base mt-1">
+                                       <FaArrowCircleRight/> Product Name: {items.recommendedProductName}
+                                    </p>
+                                    <p className="text-gray-600 flex items-center gap-2 text-base mt-1">
+                                       <FaArrowCircleRight/> Reason: {items.recommendationReason}
+                                    </p>
+                                    
+                                </div>
+                        </article>
+                    )
+                }
             </div>
         </>
     );

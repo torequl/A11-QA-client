@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { useLoaderData, useParams } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const MyRecommendations = () => {
@@ -48,7 +48,6 @@ const MyRecommendations = () => {
                         </tr>
                     </thead>
                     <tbody>
-
                         {
                             items.map((item, i) =>
                                 <tr key={item._id}>
@@ -63,7 +62,6 @@ const MyRecommendations = () => {
                                     </td>
                                 </tr>)
                         }
-
                     </tbody>
                 </table>
             </div>

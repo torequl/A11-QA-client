@@ -1,6 +1,7 @@
 
 import { Navigate, useLocation } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import Spinner from "../components/Spinner";
 
 // eslint-disable-next-line react/prop-types
 const PrivetRoute = ({ children }) => {
@@ -10,7 +11,7 @@ const PrivetRoute = ({ children }) => {
     const location = useLocation();
 
     if (loading) {
-        return <h1>Loading........</h1>
+        return <Spinner/>
     }
 
     if (user) {

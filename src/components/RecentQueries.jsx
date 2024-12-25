@@ -15,7 +15,7 @@ const RecentQueries = ({ loadedData }) => {
             <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {
                     loadedData.map((item, i) => (
-                        <article className="max-w-md mx-auto mt-10 rounded-md" key={i}>
+                        <article className="max-w-md mx-auto w-full mt-10 rounded-md" key={i}>
                             <div className="max-w-sm mx-auto bg-white border rounded-lg">
                                 <img
                                     className="w-full h-48 object-contain"
