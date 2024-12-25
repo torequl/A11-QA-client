@@ -5,7 +5,6 @@ import useAuth from "../hooks/useAuth";
 
 const UpdateQueries = () => {
     const itemData = useLoaderData()
-    console.log(itemData);
     const { setMyQueries, user } = useAuth()
 
     const navigate = useNavigate()

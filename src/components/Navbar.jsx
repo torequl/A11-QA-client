@@ -20,9 +20,13 @@ const Navbar = () => {
     const navigation = <>
         <li><Link className="hover" to='/'>Home</Link></li>
         <li><Link className="hover" to='/queries'>Queries</Link></li>
-        <li><Link className="hover" to='/recommendations-for-me'>Recommendations For Me</Link></li>
+        {
+            user && <div className="flex items-center gap-4">
+                <li><Link className="hover" to={`/recommendations-for-me/${user?.email}`}>Recommendations For Me</Link></li>
         <li><Link className="hover" to={`/my-queries?email=${user?.email}`}>My Queries</Link></li>
         <li><Link className="hover" to={`/my-recommendations/${user?.email}`}>My Recommendations</Link></li>
+            </div>
+        }
     </>
 
     return (
@@ -56,12 +60,28 @@ const Navbar = () => {
                 <div className={`flex-1 justify-self-center pb-3 mt-8 md:block md:pb-0 md:mt-0 ${state ? 'block' : 'hidden'}`}>
                     <ul className="justify-center items-center space-y-8 md:flex md:space-x-4 md:space-y-0">
                         {navigation}
+                        <div className={`flex items-center ${state ? 'block' : 'hidden'}`}>
+                            <Link onClick={handleLogOut} to='sign-up' className="py-3 px-4 text-white bg-indigo-600 hover:bg-indigo-700 rounded-md shadow">Log Out</Link>
+                            <div className="avatar ml-4">
+                                <div className="w-12 rounded-full">
+                                    <img referrerPolicy="no-referrer" src={user?.photoURL} />
+                                </div>
+                            </div>
+                        </div>
                     </ul>
                 </div>
                 <div className="hidden md:inline-block">
                     {
-                        user ? <Link onClick={handleLogOut} to='sign-up' className="py-3 px-4 text-white bg-indigo-600 hover:bg-indigo-700 rounded-md shadow">Log Out</Link> :
-                    <Link to='login' className="py-3 px-4 text-white bg-indigo-600 hover:bg-indigo-700 rounded-md shadow">Login</Link>
+                        user ? <div className="flex items-center">
+                            <Link onClick={handleLogOut} to='sign-up' className="py-3 px-4 text-white bg-indigo-600 hover:bg-indigo-700 rounded-md shadow">Log Out</Link>
+                            <div className="avatar ml-4">
+                                <div className="w-12 rounded-full">
+                                    <img referrerPolicy="no-referrer" src={user.photoURL} />
+                                </div>
+                            </div>
+                        </div>
+                            :
+                            <Link to='login' className="py-3 px-4 text-white bg-indigo-600 hover:bg-indigo-700 rounded-md shadow">Login</Link>
                     }
                 </div>
             </div>

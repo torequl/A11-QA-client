@@ -53,7 +53,8 @@ const ViewDetails = () => {
                         <div className="divider"></div>
                         <div className="flex gap-2 items-center">
                             <div>
-                                <img className="w-14 rounded-full" src={query.userPhoto} alt={query.productName} />
+                                <img referrerPolicy="no-referrer"
+                                className="w-14 rounded-full" src={query.userPhoto} alt={query.userName} />
                             </div>
                             <div>
                                 <h3 className="text-xl">{query.userName}</h3>

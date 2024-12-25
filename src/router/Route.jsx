@@ -31,8 +31,9 @@ const Route = createBrowserRouter([
                 loader: () => fetch('http://localhost:5000/all-queries')
             },
             {
-                path: '/recommendations-for-me',
-                element: <RecommendationsForMe/>
+                path: '/recommendations-for-me/:email',
+                element: <PrivetRoute><RecommendationsForMe/></PrivetRoute>,
+                loader: ({params}) => fetch(`http://localhost:5000/recommendations-for-me/${params.email}`)
             },
             {
                 path: '/my-queries',
@@ -40,7 +41,7 @@ const Route = createBrowserRouter([
             },
             {
                 path: '/my-recommendations/:email',
-                element: <MyRecommendations/>,
+                element: <PrivetRoute><MyRecommendations/></PrivetRoute>,
                 loader: ({params}) => fetch(`http://localhost:5000/my-recommendation/${params.email}`)
             },
             {
@@ -53,16 +54,16 @@ const Route = createBrowserRouter([
             },
             {
                 path: '/add-queries',
-                element: <AddQueries/>
+                element: <PrivetRoute><AddQueries/></PrivetRoute>
             },
             {
                 path: '/details/:id',
-                element: <ViewDetails/>,
+                element: <PrivetRoute><ViewDetails/></PrivetRoute>,
                 loader: ({params}) => fetch(`http://localhost:5000/details/${params.id}`)
             },
             {
                 path: '/update/:id',
-                element: <UpdateQueries/>,
+                element: <PrivetRoute><UpdateQueries/></PrivetRoute>,
                 loader: ({params}) => fetch(`http://localhost:5000/update/${params.id}`)
             }
         ]
