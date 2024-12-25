@@ -20,11 +20,10 @@ const AddQueries = () => {
         const userName = user.displayName;
         const userPhoto = user.photoURL;
         const timestamp = Date.now();
-        const queryData = { boycottingReasonDetails, queryTitle, productBrand, productImageURL, productName, userEmail, userName, timestamp, userPhoto }
+        const queryData = { boycottingReasonDetails, queryTitle, productBrand, productImageURL, productName, userEmail, userName, timestamp, userPhoto, recommendationCount: 0 }
 
         axios.post('http://localhost:5000/add-query', queryData)
             .then(res => {
-                console.log(res.data);
                 if (res.data.insertedId) {
                     Swal.fire({
                         position: "center",

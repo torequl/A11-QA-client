@@ -22,7 +22,7 @@ const Navbar = () => {
         <li><Link className="hover" to='/queries'>Queries</Link></li>
         <li><Link className="hover" to='/recommendations-for-me'>Recommendations For Me</Link></li>
         <li><Link className="hover" to={`/my-queries?email=${user?.email}`}>My Queries</Link></li>
-        <li><Link className="hover" to='/my-recommendations'>My Recommendations</Link></li>
+        <li><Link className="hover" to={`/my-recommendations/${user?.email}`}>My Recommendations</Link></li>
     </>
 
     return (

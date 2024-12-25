@@ -11,12 +11,14 @@ import AddQueries from "../pages/AddQueries";
 import ViewDetails from "../pages/ViewDetails";
 import PrivetRoute from "./PriverRoute";
 import UpdateQueries from "../pages/UpdateQueries";
+import Error from "../pages/Error";
+import { FaE, FaT } from "react-icons/fa6";
 
 const Route = createBrowserRouter([
     {
         path: '/',
         element: <MainLayout/>,
-        errorElement: <div>404 Page Not Found</div>,
+        errorElement: <Error/>,
         children:[
             {
                 path: '/',
@@ -37,8 +39,9 @@ const Route = createBrowserRouter([
                 element: <PrivetRoute><MyQueries/></PrivetRoute>
             },
             {
-                path: '/my-recommendations',
-                element: <MyRecommendations/>
+                path: '/my-recommendations/:email',
+                element: <MyRecommendations/>,
+                loader: ({params}) => fetch(`http://localhost:5000/my-recommendation/${params.email}`)
             },
             {
                 path: '/login',

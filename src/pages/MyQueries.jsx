@@ -35,7 +35,6 @@ const MyQueries = () => {
 
     return (
         <section className="mx-auto px-4 max-w-screen-xl md:px-8">
-
             <section className="py-20" style={{ background: "linear-gradient(152.92deg, rgba(192, 132, 252, 0.2) 4.54%, rgba(232, 121, 249, 0.17) 34.2%, rgba(192, 132, 252, 0.1) 77.55%)" }}>
                 <div className="max-w-screen-xl mx-auto px-4 md:text-center md:px-8">
                     <div className="max-w-xl space-y-3 md:mx-auto">
@@ -55,10 +54,11 @@ const MyQueries = () => {
             </section>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {myQueries.length > 0 || <h2 className="text-2xl">No Data Found</h2>}
                 {
                     myQueries.map((item, i) => (
-                        <article className="max-w-md mx-auto mt-10 rounded-md" key={i}>
-                            <div className="max-w-sm mx-auto bg-white border rounded-lg">
+                        <article className="mx-auto mt-10 rounded-md" key={i}>
+                            <div className="mx-auto bg-white border rounded-lg">
                                 <img
                                     className="w-full h-48 object-contain"
                                     src={item.productImageURL}
@@ -74,7 +74,7 @@ const MyQueries = () => {
                                     <p className="mt-2 text-gray-800">
                                         Product Name: {item.productName}
                                     </p>
-                                    <div className="mt-5 flex justify-between">
+                                    <div className="mt-5 gap-2 flex justify-between">
                                         <Link to={`/details/${item._id}`}>
                                             <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
                                                 Details

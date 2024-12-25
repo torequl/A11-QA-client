@@ -1,3 +1,4 @@
+import { FaHeart } from "react-icons/fa";
 import { Link, useLoaderData } from "react-router-dom";
 
 const Queries = () => {
@@ -41,7 +42,9 @@ const Queries = () => {
                                         Product Name: {item.productName}
                                     </p>
                                     <div className="mt-5 flex justify-between">
-                                        <h3 className="border font-bold py-2 px-4 rounded">Recommendation</h3>
+                                        <h3 className="border flex items-center gap-2 text-red-500 text-xl py-2 px-4 rounded">
+                                            {item.recommendationCount > 0 ? <><FaHeart /><span className='-mt-1'>{item.recommendationCount}</span></> : <FaHeart />}
+                                        </h3>
                                         <Link to={`/details/${item._id}`}>
                                             <button
                                                 className="bg-indigo-500 text-white py-2 px-4 rounded hover:bg-blue-600">
