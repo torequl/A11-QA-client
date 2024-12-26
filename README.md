@@ -1,3 +1,7 @@
+### Live Link: https://assignment-11qa.web.app
+### Server: https://github.com/programming-hero-web-course2/b10a11-server-side-torequl
+### Client: https://github.com/programming-hero-web-course2/b10a11-client-side-torequl
+
 # Q&A Social Media Platform
 
 This is a React-based social media platform designed for question-and-answer-style interactions, similar to Quora. Users can post queries, recommend products or solutions, and interact with other users' posts.
