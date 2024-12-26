@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../assets/qestion-logo.png'
 import useAuth from '../hooks/useAuth';
 import { toast } from 'react-toastify';
@@ -7,9 +7,11 @@ const Login = () => {
     const navigate = useNavigate()
     const {handelLogin, handelGoogleLogin} = useAuth()
 
+    const location = useLocation();
+
     const googleLogin = () => {
         handelGoogleLogin()
-            .then(user => console.log(user))
+            .then(user => navigate(location?.state ? location.state : '/'))
             .catch(error => console.log(error))
     };
 

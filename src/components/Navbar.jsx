@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from '../assets/qestion-logo.png'
 import useAuth from "../hooks/useAuth";
 import { signOut } from "firebase/auth";
@@ -7,12 +7,12 @@ import { auth } from "../firebase.config";
 
 const Navbar = () => {
     const [state, setState] = useState(false)
-
+    const navigate = useNavigate()
     const { user } = useAuth()
 
     const handleLogOut = () => {
         signOut(auth)
-            .then(user => console.log(user))
+            .then(user => navigate('/'))
             .catch(error => console.log(error))
     }
 
@@ -61,7 +61,7 @@ const Navbar = () => {
                     <ul className="justify-center items-center space-y-8 md:flex md:space-x-4 md:space-y-0">
                         {navigation}
                         <div className={`flex items-center ${state ? 'block' : 'hidden'}`}>
-                            <Link onClick={handleLogOut} to='sign-up' className="py-3 px-4 text-white bg-indigo-600 hover:bg-indigo-700 rounded-md shadow">Log Out</Link>
+                            <Link onClick={handleLogOut} className="py-3 px-4 text-white bg-indigo-600 hover:bg-indigo-700 rounded-md shadow">Log Out</Link>
                             <div className="avatar ml-4">
                                 <div className="w-12 rounded-full">
                                     <img referrerPolicy="no-referrer" src={user?.photoURL} />
@@ -73,7 +73,7 @@ const Navbar = () => {
                 <div className="hidden md:inline-block">
                     {
                         user ? <div className="flex items-center">
-                            <Link onClick={handleLogOut} to='sign-up' className="py-3 px-4 text-white bg-indigo-600 hover:bg-indigo-700 rounded-md shadow">Log Out</Link>
+                            <Link onClick={handleLogOut} className="py-3 px-4 text-white bg-indigo-600 hover:bg-indigo-700 rounded-md shadow">Log Out</Link>
                             <div className="avatar ml-4">
                                 <div className="w-12 rounded-full">
                                     <img referrerPolicy="no-referrer" src={user.photoURL} />

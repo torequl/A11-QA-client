@@ -12,7 +12,7 @@ const SignUp = () => {
 
     const handelGoogle = () => {
         handelGoogleLogin()
-            .then(user => console.log(user))
+            .then(user => navigate('/'))
     }
 
     const handleSignUp = (e) => {
