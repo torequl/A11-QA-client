@@ -33,6 +33,15 @@ const myRecommendation = async ({ params }) => {
         });
 };
 
+const details = async ({ params }) => {
+    return await axiosInstance.get(`/details/${params.id}`)
+        .then(response => response.data)
+        .catch(error => {
+            console.error("Error loading recommendations:", error);
+            throw new Response("Failed to load data", { status: error.response?.status || 500 });
+        });
+};
+
 
 
 const Route = createBrowserRouter([
@@ -81,12 +90,12 @@ const Route = createBrowserRouter([
             {
                 path: '/details/:id',
                 element: <PrivetRoute><ViewDetails/></PrivetRoute>,
-                loader: ({params}) => fetch(`http://localhost:5000/details/${params.id}`)
+                loader: details,
             },
             {
                 path: '/update/:id',
                 element: <PrivetRoute><UpdateQueries/></PrivetRoute>,
-                loader: ({params}) => fetch(`http://localhost:5000/update/${params.id}`)
+                loader: details,
             }
         ]
     }
