@@ -14,7 +14,7 @@ const ViewDetails = () => {
     const [recommendations, setRecommendations] = useState([]);
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/recommendations/${query._id}`)
+        axios.get(`https://qa-server-tau.vercel.app/recommendations/${query._id}`)
             .then(res => {
                 setRecommendations(res.data)
             })
@@ -35,7 +35,7 @@ const ViewDetails = () => {
         const currentDate = new Date().toLocaleDateString('en-UK');
         const formData = { recommendationTitle, recommendedProductName, recommendedProductImageUrl, recommendationReason, queryId, recommendationEmail, recommendationUserName, userPhoto, currentDate }
 
-        axios.post('http://localhost:5000/recommendation', formData)
+        axios.post('https://qa-server-tau.vercel.app/recommendation', formData)
             .then(res => {
                 if (res.data.insertedId) {
                     Swal.fire({

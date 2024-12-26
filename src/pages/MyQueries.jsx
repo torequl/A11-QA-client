@@ -17,7 +17,7 @@ const MyQueries = () => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(`http://localhost:5000/my-queries-delete/${id}`)
+                axios.delete(`https://qa-server-tau.vercel.app/my-queries-delete/${id}`)
                     .then(res => console.log(res.data))
                     .catch(err => console.log(err))
                 Swal.fire({

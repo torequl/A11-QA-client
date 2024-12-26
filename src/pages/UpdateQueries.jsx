@@ -22,7 +22,7 @@ const UpdateQueries = () => {
         const timestamp = Date.now();
         const queryData = { boycottingReasonDetails, queryTitle, productBrand, productImageURL, productName, timestamp }
 
-        axios.put(`http://localhost:5000/update/${itemData._id}`, queryData)
+        axios.put(`https://qa-server-tau.vercel.app/update/${itemData._id}`, queryData)
             .then(res => {
                 console.log(res.data);
                 if (res.data.modifiedCount > 0) {
@@ -34,7 +34,7 @@ const UpdateQueries = () => {
                         timer: 1500
                     });
 
-                    axios.get('http://localhost:5000/my-queries', { params: { email: user?.email } })
+                    axios.get('https://qa-server-tau.vercel.app/my-queries', { params: { email: user?.email } })
                         .then(res => setMyQueries(res.data))
                         navigate('/my-queries')
 

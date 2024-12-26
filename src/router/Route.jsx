@@ -54,12 +54,12 @@ const Route = createBrowserRouter([
             {
                 path: '/',
                 element: <Home/>,
-                loader: () => fetch('http://localhost:5000/recent-queries')
+                loader: () => fetch('https://qa-server-tau.vercel.app/recent-queries')
             },
             {
                 path: '/queries',
                 element: <Queries/>,
-                loader: () => fetch('http://localhost:5000/all-queries')
+                loader: () => fetch('https://qa-server-tau.vercel.app/all-queries')
             },
             {
                 path: '/recommendations-for-me/:email',

@@ -39,7 +39,7 @@ const SignUp = () => {
 
         handleRegister(email, password)
             .then((userData) => {
-                axios.post('http://localhost:5000/users', user)
+                axios.post('https://qa-server-tau.vercel.app/users', user)
                 .then(res => console.log(res.data))
                 toast.success(userData.user.email + " Sign-Up Successfully");
                 updateUserProfile({

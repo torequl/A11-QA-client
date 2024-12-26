@@ -22,7 +22,7 @@ const AddQueries = () => {
         const timestamp = Date.now();
         const queryData = { boycottingReasonDetails, queryTitle, productBrand, productImageURL, productName, userEmail, userName, timestamp, userPhoto, recommendationCount: 0 }
 
-        axios.post('http://localhost:5000/add-query', queryData)
+        axios.post('https://qa-server-tau.vercel.app/add-query', queryData)
             .then(res => {
                 if (res.data.insertedId) {
                     Swal.fire({
@@ -32,7 +32,7 @@ const AddQueries = () => {
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    axios.get('http://localhost:5000/my-queries', { params: { email: user?.email } })
+                    axios.get('https://qa-server-tau.vercel.app/my-queries', { params: { email: user?.email } })
                         .then(res => setMyQueries(res.data))
                     navigate('/my-queries')
                     form.reset()

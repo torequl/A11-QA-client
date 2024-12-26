@@ -18,7 +18,7 @@ const MyRecommendations = () => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(`http://localhost:5000/my-recommendation-delete/${id}`)
+                axios.delete(`https://qa-server-tau.vercel.app/my-recommendation-delete/${id}`)
                     .then(res => console.clear(res.data))
                     .catch(err => console.log(err))
                 Swal.fire({
