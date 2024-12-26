@@ -12,9 +12,31 @@ import ViewDetails from "../pages/ViewDetails";
 import PrivetRoute from "./PriverRoute";
 import UpdateQueries from "../pages/UpdateQueries";
 import Error from "../pages/Error";
-import { FaE, FaT } from "react-icons/fa6";
+import axiosInstance from "../axiosInstance";
+
+
+const recommendationsLoader = async ({ params }) => {
+    return await axiosInstance.get(`/recommendations-for-me/${params.email}`)
+        .then(response => response.data)
+        .catch(error => {
+            console.error("Error loading recommendations:", error);
+            throw new Response("Failed to load data", { status: error.response?.status || 500 });
+        });
+};
+
+const myRecommendation = async ({ params }) => {
+    return await axiosInstance.get(`/my-recommendation/${params.email}`)
+        .then(response => response.data)
+        .catch(error => {
+            console.error("Error loading recommendations:", error);
+            throw new Response("Failed to load data", { status: error.response?.status || 500 });
+        });
+};
+
+
 
 const Route = createBrowserRouter([
+    
     {
         path: '/',
         element: <MainLayout/>,
@@ -33,7 +55,7 @@ const Route = createBrowserRouter([
             {
                 path: '/recommendations-for-me/:email',
                 element: <PrivetRoute><RecommendationsForMe/></PrivetRoute>,
-                loader: ({params}) => fetch(`http://localhost:5000/recommendations-for-me/${params.email}`)
+                loader: recommendationsLoader
             },
             {
                 path: '/my-queries',
@@ -42,7 +64,7 @@ const Route = createBrowserRouter([
             {
                 path: '/my-recommendations/:email',
                 element: <PrivetRoute><MyRecommendations/></PrivetRoute>,
-                loader: ({params}) => fetch(`http://localhost:5000/my-recommendation/${params.email}`)
+                loader: myRecommendation,
             },
             {
                 path: '/login',

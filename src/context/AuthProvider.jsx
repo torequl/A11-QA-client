@@ -2,6 +2,7 @@ import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged,
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../firebase.config";
 import axios from "axios";
+import axiosInstance from "../axiosInstance";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext();
@@ -17,8 +18,12 @@ const AuthProvider = ({ children }) => {
     const [myQueries, setMyQueries] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/my-queries', { params: { email: user?.email } })
-            .then(res => setMyQueries(res.data))
+        axiosInstance.get('my-queries', { params: { email: user?.email } })
+        .then(response => setMyQueries(response.data))
+        .catch(error => {
+            console.error("Error loading recommendations:", error);
+            throw new Response("Failed to load data", { status: error.response?.status || 500 });
+        });
     }, [user?.email]);
 
     // TODO: Sign Up with Email And Password
