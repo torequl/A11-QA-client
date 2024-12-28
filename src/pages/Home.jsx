@@ -3,7 +3,7 @@ import Slider from '../components/Slider';
 import RecentQueries from '../components/RecentQueries';
 import { useLoaderData } from 'react-router-dom';
 import Newsletter from '../components/Newsletter';
-import Feature from '../components/Feature';
+import TeamSection from '../components/TeamSection';
 const Home = () => {
     const loadedData = useLoaderData()
     
@@ -15,7 +15,9 @@ const Home = () => {
 
             <Newsletter/>
 
-            <Feature/>
+            {/* <Feature/> */}
+
+            <TeamSection/>
         </div>
     );
 };

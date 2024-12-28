@@ -1,12 +1,40 @@
+// import axios from "axios";
+import { useEffect, useState } from "react";
 import { FaRegThumbsUp, FaThumbsUp } from "react-icons/fa";
-import { Link, useLoaderData } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { MdGridOn } from "react-icons/md";
+import { LuGrid2X2 } from "react-icons/lu";
+import { axiosConfig } from "../axiosConfig";
 
 const Queries = () => {
 
-    const queries = useLoaderData()
+    // const queries = useLoaderData()
+    const [queries, setQueries] = useState([])
+
+    const [active, setActive] = useState(true)
+
+    const [searchTerm, setSearchTerm] = useState("");
+
+    useEffect(() => {
+        axiosConfig.get('/all-queries')
+            .then(res => setQueries(res.data))
+    }, [])
+
+    const filteredQueries = queries.filter((product) => {
+        return product.productName.toLowerCase().includes(searchTerm.toLowerCase())
+    }
+    );
+
+    // Handle search input change
+    const handleSearchChange = (event) => {
+        setSearchTerm(event.target.value);
+        // setQueries(filteredQueries)
+    };
+
+    console.log(active);
 
     return (
-        <section className="mx-auto px-4 max-w-screen-xl md:px-8">
+        <section className="mx-auto px-4 max-w-screen-xl">
             <section className="py-20" style={{ background: "linear-gradient(152.92deg, rgba(192, 132, 252, 0.2) 4.54%, rgba(232, 121, 249, 0.17) 34.2%, rgba(192, 132, 252, 0.1) 77.55%)" }}>
                 <div className="max-w-screen-xl mx-auto px-4 md:text-center md:px-8">
                     <div className="max-w-xl space-y-3 md:mx-auto">
@@ -20,9 +48,28 @@ const Queries = () => {
                 </div>
             </section>
 
-            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mx-auto flex items-center flex-col md:flex-row gap-4 justify-between mt-12">
+                <div className="relative">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="absolute top-0 bottom-0 w-6 h-6 my-auto text-gray-400 left-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <input
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                        type="text"
+                        placeholder="Search"
+                        className="py-3 pl-12 pr-4 text-gray-500 border rounded-md outline-none bg-gray-50 focus:bg-white focus:border-indigo-600"
+                    />
+                </div>
+            <button onClick={() => setActive(!active)} 
+            className='text-2xl'
+            >{ active ? <MdGridOn /> : <LuGrid2X2 />}</button>
+            </div>
+
+
+            <div className={`grid gap-4 ${active ? 'grid-cols-1 md:grid-cols-3' : 'grid-cols-1 md:grid-cols-2'}`}>
                 {
-                    queries.map((item, i) => (
+                    filteredQueries.map((item, i) => (
                         <article className="max-w-md mx-auto w-full mt-10 rounded-md" key={i}>
                             <div className="max-w-sm mx-auto bg-white border rounded-lg">
                                 <img

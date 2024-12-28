@@ -12,35 +12,6 @@ import ViewDetails from "../pages/ViewDetails";
 import PrivetRoute from "./PriverRoute";
 import UpdateQueries from "../pages/UpdateQueries";
 import Error from "../pages/Error";
-import axiosInstance from "../axiosInstance";
-
-
-const recommendationsLoader = async ({ params }) => {
-    return await axiosInstance.get(`/recommendations-for-me/${params.email}`)
-        .then(response => response.data)
-        .catch(error => {
-            console.error("Error loading recommendations:", error);
-            throw new Response("Failed to load data", { status: error.response?.status || 500 });
-        });
-};
-
-const myRecommendation = async ({ params }) => {
-    return await axiosInstance.get(`/my-recommendation/${params.email}`)
-        .then(response => response.data)
-        .catch(error => {
-            console.error("Error loading recommendations:", error);
-            throw new Response("Failed to load data", { status: error.response?.status || 500 });
-        });
-};
-
-const details = async ({ params }) => {
-    return await axiosInstance.get(`/details/${params.id}`)
-        .then(response => response.data)
-        .catch(error => {
-            console.error("Error loading recommendations:", error);
-            throw new Response("Failed to load data", { status: error.response?.status || 500 });
-        });
-};
 
 
 
@@ -59,12 +30,10 @@ const Route = createBrowserRouter([
             {
                 path: '/queries',
                 element: <Queries/>,
-                loader: () => fetch('https://qa-server-tau.vercel.app/all-queries')
             },
             {
                 path: '/recommendations-for-me/:email',
                 element: <PrivetRoute><RecommendationsForMe/></PrivetRoute>,
-                loader: recommendationsLoader
             },
             {
                 path: '/my-queries',
@@ -73,7 +42,6 @@ const Route = createBrowserRouter([
             {
                 path: '/my-recommendations/:email',
                 element: <PrivetRoute><MyRecommendations/></PrivetRoute>,
-                loader: myRecommendation,
             },
             {
                 path: '/login',
@@ -90,12 +58,10 @@ const Route = createBrowserRouter([
             {
                 path: '/details/:id',
                 element: <PrivetRoute><ViewDetails/></PrivetRoute>,
-                loader: details,
             },
             {
                 path: '/update/:id',
                 element: <PrivetRoute><UpdateQueries/></PrivetRoute>,
-                loader: details,
             }
         ]
     }

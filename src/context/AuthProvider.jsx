@@ -2,7 +2,7 @@ import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged,
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../firebase.config";
 import axios from "axios";
-import axiosInstance from "../axiosInstance";
+// import useAxiosInstance from "../useAxiosInstance";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext();
@@ -11,20 +11,24 @@ const AuthProvider = ({ children }) => {
 
     const [loading, setLoading] = useState(true);
 
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState('');
 
     const googleProvider = new GoogleAuthProvider();
 
     const [myQueries, setMyQueries] = useState([]);
+    
 
     useEffect(() => {
-        axiosInstance.get('my-queries', { params: { email: user?.email } })
+        axios.get('https://qa-server-tau.vercel.app/my-queries', { params: { email: user?.email } })
         .then(response => setMyQueries(response.data))
         .catch(error => {
             console.error("Error loading recommendations:", error);
             throw new Response("Failed to load data", { status: error.response?.status || 500 });
         });
     }, [user?.email]);
+
+
+
 
     // TODO: Sign Up with Email And Password
     const handleRegister = (email, password) => {
@@ -55,8 +59,6 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser)
-            console.log(currentUser);
-
             if(currentUser?.email){
                 const user = {email: currentUser.email};
                 axios.post('https://qa-server-tau.vercel.app/jwt', user, {

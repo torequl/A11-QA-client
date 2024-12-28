@@ -1,11 +1,13 @@
 import axios from "axios";
-import useAuth from "../hooks/useAuth";
+// import useAuth from "../hooks/useAuth";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthProvider";
 
 const MyQueries = () => {
-    const { myQueries, setMyQueries } = useAuth()
-
+    const { myQueries, setMyQueries } = useContext(AuthContext)
+    
     const handelDelete = id => {
         Swal.fire({
             title: "Are you sure?",
@@ -54,9 +56,9 @@ const MyQueries = () => {
             </section>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {myQueries.length > 0 || <h2 className="text-2xl text-red-500 text-center py-10">No Data Found</h2>}
+            {myQueries?.length > 0 || <h2 className="text-2xl text-red-500 text-center py-10">No Data Found</h2>}
                 {
-                    myQueries.map((item, i) => (
+                    myQueries?.map((item, i) => (
                         <article className="mx-auto mt-10 w-full rounded-md" key={i}>
                             <div className="mx-auto bg-white border rounded-lg">
                                 <img

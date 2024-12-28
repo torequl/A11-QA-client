@@ -21,15 +21,16 @@ const Navbar = () => {
         <li><Link className="hover" to='/'>Home</Link></li>
         <li><Link className="hover" to='/queries'>Queries</Link></li>
         {
-            user && <div className="flex items-center gap-4">
+            user && <div className="flex flex-col md:flex-row items-center gap-4">
                 <li><Link className="hover" to={`/recommendations-for-me/${user?.email}`}>Recommendations For Me</Link></li>
-        <li><Link className="hover" to={`/my-queries?email=${user?.email}`}>My Queries</Link></li>
-        <li><Link className="hover" to={`/my-recommendations/${user?.email}`}>My Recommendations</Link></li>
+                <li><Link className="hover" to={`/my-queries?email=${user?.email}`}>My Queries</Link></li>
+                <li><Link className="hover" to={`/my-recommendations/${user?.email}`}>My Recommendations</Link></li>
             </div>
         }
     </>
 
     return (
+        <>
         <nav className="bg-white w-full border-b md:border-0 md:static">
             <div className="items-center px-4 max-w-screen-xl mx-auto md:flex md:px-8">
                 <div className="flex items-center justify-between py-3 md:py-5 md:block">
@@ -86,6 +87,7 @@ const Navbar = () => {
                 </div>
             </div>
         </nav>
+        </>
     );
 };
 

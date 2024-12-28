@@ -1,14 +1,21 @@
 import axios from "axios";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import useAuth from "../hooks/useAuth";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../context/AuthProvider";
 
 const UpdateQueries = () => {
-    const itemData = useLoaderData()
-    const { setMyQueries, user } = useAuth()
+    const {id} = useParams()
+    // const itemData = useLoaderData()
+    const { setMyQueries, user } = useContext(AuthContext)
+    const [itemData, setItemData] = useState([])
+
+    useEffect( ()=> {
+        axios.get(`https://qa-server-tau.vercel.app/details/${id}`)
+        .then(res => setItemData(res.data))
+    },[id])
 
     const navigate = useNavigate()
-
 
     const handelSubmit = e => {
         e.preventDefault();
@@ -22,9 +29,8 @@ const UpdateQueries = () => {
         const timestamp = Date.now();
         const queryData = { boycottingReasonDetails, queryTitle, productBrand, productImageURL, productName, timestamp }
 
-        axios.put(`https://qa-server-tau.vercel.app/update/${itemData._id}`, queryData)
+        axios.put(`https://qa-server-tau.vercel.app/update/${id}`, queryData)
             .then(res => {
-                console.log(res.data);
                 if (res.data.modifiedCount > 0) {
                     Swal.fire({
                         position: "center",
@@ -33,11 +39,9 @@ const UpdateQueries = () => {
                         showConfirmButton: false,
                         timer: 1500
                     });
-
                     axios.get('https://qa-server-tau.vercel.app/my-queries', { params: { email: user?.email } })
                         .then(res => setMyQueries(res.data))
                         navigate('/my-queries')
-
                 }
                 form.reset()
             }).catch(error => console.log(error))
@@ -48,7 +52,7 @@ const UpdateQueries = () => {
 
     return (
         <>
-            <div className="max-w-4xl mx-auto p-8 border rounded-md my-10">
+        <div className="max-w-4xl mx-auto p-8 border rounded-md my-10">
                 <h1 className="text-2xl font-bold text-center mb-6">Update Queries</h1>
                 <form onSubmit={handelSubmit} className="space-y-4">
                     <div className="flex justify-between">
@@ -131,7 +135,7 @@ const UpdateQueries = () => {
                         Add New Queries
                     </button>
                 </form>
-            </div>
+            </div> 
         </>
     );
 };

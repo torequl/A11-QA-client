@@ -1,15 +1,27 @@
-import { useLoaderData } from "react-router-dom";
+// import { useLoaderData } from "react-router-dom";
+
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const RecommendationsForMe = () => {
 
-    const loadedData = useLoaderData()
-    console.dir(loadedData);
+    // const data = useLoaderData()
+    const [data , setData] = useState([])
+
+    const {email} = useParams()
+
+    useEffect( ()=> {
+        axios.get(`https://qa-server-tau.vercel.app/recommendations-for-me/${email}`)
+        .then(res => setData(res.data))
+    },[email])
+
 
     return (
         <div>
             <div className="overflow-x-auto max-w-6xl mx-auto">
                 {
-                    loadedData.length > 0 ?
+                    data.length > 0 ?
                     <table className="table">
                     {/* head */}
                     <thead>
@@ -25,7 +37,7 @@ const RecommendationsForMe = () => {
                     <tbody>
 
                         {
-                            loadedData.map((item, i) =>
+                            data.map((item, i) =>
                                 <tr key={item._id}>
                                     <td>{i + 1}</td>
                                     <td>{item.recommendationUserName}</td>

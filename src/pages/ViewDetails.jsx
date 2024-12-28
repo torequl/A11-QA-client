@@ -1,15 +1,25 @@
-import { Link, useLoaderData, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import { FaArrowCircleRight } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { MdDelete } from "react-icons/md";
+import { axiosConfig } from "../axiosConfig";
 
 const ViewDetails = () => {
-    const query = useLoaderData();
+    // const query = useLoaderData();
     const { user } = useAuth();
     const navigate = useNavigate();
+    const {id} = useParams()
+
+    const [query, setQuery] = useState([])
+
+    useEffect(()=>{
+        axios.get(`https://qa-server-tau.vercel.app/details/${id}`)
+        .then(res => setQuery(res.data))
+    },[id])
 
     const [recommendations, setRecommendations] = useState([]);
 
@@ -47,6 +57,35 @@ const ViewDetails = () => {
             })
             .catch(({response}) => toast.error(response.data.error))
     }
+
+
+    const handelDelete = async id => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosConfig
+                .delete(`/my-recommendation-delete/${id}`)
+                    .then(res => console.log(res.data))
+                    .catch(err => console.log(err))
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Your file has been deleted.",
+                    icon: "success"
+                });
+                const newData = recommendations.filter(data => data._id !== id);
+                setRecommendations(newData);
+            }
+        });
+    }
+
+    
 
     return (
         <>
@@ -140,7 +179,8 @@ const ViewDetails = () => {
                 {
                     recommendations.map(items =>
                         <article className="max-w-md mx-auto mt-4 hover:shadow-lg border rounded-md duration-300 shadow-sm" key={items._id}>
-                                <div className="flex items-center mt-2 pt-3 ml-4 mr-2">
+                                <div className="flex items-center justify-between mt-2 pt-3 ml-4 mr-2">
+                                    <div className="flex">
                                     <div className="flex-none w-10 h-10 rounded-full">
                                         <img src={items.userPhoto} className="w-full h-full rounded-full" alt={items.recommendationUserName} />
                                     </div>
@@ -148,18 +188,21 @@ const ViewDetails = () => {
                                         <span className="block text-gray-900">{items.recommendationUserName}</span>
                                         <span className="block text-gray-400 text-sm">{items.currentDate}</span>
                                     </div>
+                                    </div>
+                                    <button onClick={()=> handelDelete(items._id)}
+                                    className="text-2xl text-white rounded-md p-2 bg-red-400"
+                                    ><MdDelete /></button>
                                 </div>
                                 <div className="pt-3 ml-4 mr-2 mb-3">
                                     <h3 className="text-xl text-gray-900">
                                         Title: {items.recommendationTitle}
                                     </h3>
                                     <p className="text-gray-600 flex items-center gap-2 text-base mt-1">
-                                       <FaArrowCircleRight/> Product Name: {items.recommendedProductName}
+                                        <FaArrowCircleRight/> Product Name: {items.recommendedProductName}
                                     </p>
                                     <p className="text-gray-600 flex items-center gap-2 text-base mt-1">
-                                       <FaArrowCircleRight/> Reason: {items.recommendationReason}
+                                        <FaArrowCircleRight/> Reason: {items.recommendationReason}
                                     </p>
-                                    
                                 </div>
                         </article>
                     )

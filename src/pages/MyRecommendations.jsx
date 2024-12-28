@@ -1,11 +1,17 @@
 import axios from "axios";
-import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const MyRecommendations = () => {
-    const loadedData = useLoaderData();
-    const [items, setItems] = useState(loadedData)
+    const [items, setItems] = useState([])
+    const {email} = useParams()
+
+    useEffect(()=>{
+        axios.get(`https://qa-server-tau.vercel.app/my-recommendation/${email}`)
+        .then(res => setItems(res.data))
+    },[email])
+
 
     const handelDelete = async id => {
         Swal.fire({
@@ -19,7 +25,7 @@ const MyRecommendations = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 axios.delete(`https://qa-server-tau.vercel.app/my-recommendation-delete/${id}`)
-                    .then(res => console.clear(res.data))
+                    .then(res => console.log(res.data))
                     .catch(err => console.log(err))
                 Swal.fire({
                     title: "Deleted!",
@@ -34,7 +40,9 @@ const MyRecommendations = () => {
 
     return (
         <div>
-            <div className="overflow-x-auto max-w-6xl mx-auto">
+            {
+                items.length > 0 ? 
+                <div className="overflow-x-auto max-w-6xl mx-auto">
                 <table className="table">
                     {/* head */}
                     <thead>
@@ -65,6 +73,9 @@ const MyRecommendations = () => {
                     </tbody>
                 </table>
             </div>
+            :
+            <h2 className="text-center text-2xl my-10 text-red-500">No Data Found</h2>
+            }
         </div>
     );
 };
