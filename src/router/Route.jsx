@@ -25,7 +25,6 @@ const Route = createBrowserRouter([
             {
                 path: '/',
                 element: <Home/>,
-                loader: () => fetch('https://qa-server-tau.vercel.app/recent-queries')
             },
             {
                 path: '/queries',

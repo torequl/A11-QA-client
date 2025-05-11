@@ -1,34 +1,33 @@
 import { useNavigate, useParams } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import axios from "axios";
 import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import { FaArrowCircleRight } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { MdDelete } from "react-icons/md";
-import { axiosConfig } from "../axiosConfig";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const ViewDetails = () => {
-    // const query = useLoaderData();
+    const axiosConfig = useAxiosSecure();
     const { user } = useAuth();
     const navigate = useNavigate();
     const {id} = useParams()
 
     const [query, setQuery] = useState([])
-
+console.log(query);
     useEffect(()=>{
-        axios.get(`https://qa-server-tau.vercel.app/details/${id}`)
+        axiosConfig.get(`/details/${id}`)
         .then(res => setQuery(res.data))
-    },[id])
+    },[axiosConfig, id])
 
     const [recommendations, setRecommendations] = useState([]);
 
     useEffect(() => {
-        axios.get(`https://qa-server-tau.vercel.app/recommendations/${query._id}`)
+        axiosConfig.get(`/recommendations/${query._id}`)
             .then(res => {
                 setRecommendations(res.data)
             })
-    }, [query])
+    }, [axiosConfig, query])
 
     const handelSubmitRecommendation = e => {
         e.preventDefault()
@@ -45,7 +44,7 @@ const ViewDetails = () => {
         const currentDate = new Date().toLocaleDateString('en-UK');
         const formData = { recommendationTitle, recommendedProductName, recommendedProductImageUrl, recommendationReason, queryId, recommendationEmail, recommendationUserName, userPhoto, currentDate }
 
-        axios.post('https://qa-server-tau.vercel.app/recommendation', formData)
+        axiosConfig.post('/recommendation', formData)
             .then(res => {
                 if (res.data.insertedId) {
                     Swal.fire({
@@ -89,19 +88,20 @@ const ViewDetails = () => {
 
     return (
         <>
-            <div className="gap-8 max-w-5xl w-11/12 mx-auto grid grid-cols-1 md:grid-cols-2">
-                <div className="card bg-base-100 border">
+            <div className="gap-8 max-w-5xl w-11/12 mx-auto grid mt-5 grid-cols-1 md:grid-cols-2">
+                <div className="card bg-base-100 border-black mt-4 border">
                     <figure>
                         <img
                             referrerPolicy="no-referrer"
-                            className="h-52"
+                            className="h-52 pt-4"
                             src={query.productImageURL}
                             alt={query.productName} />
                     </figure>
                     <div className="card-body">
                         <h2 className="card-title">{query.productName}</h2>
+                        <h2 className="text-xl">{query.boycottingReasonDetails}</h2>
                         <p>{query.queryTitle}</p>
-                        <div className="divider"></div>
+                        <hr className="borer mt-3 border-black" />
                         <div className="flex gap-2 items-center">
                             <div>
                                 <img referrerPolicy="no-referrer"
@@ -117,7 +117,7 @@ const ViewDetails = () => {
 
                 <div className="card bg-base-100 border">
                     <h3 className="text-2xl text-center my-4 font-bold">Recommendation</h3>
-                    <form onSubmit={handelSubmitRecommendation} className="flex flex-col items-center">
+                    <form onSubmit={handelSubmitRecommendation} className="flex gap-5 flex-col items-center">
                         <div className="form-control w-11/12">
                             <label className="label">
                                 <span className="label-text">Recommendation Title</span>

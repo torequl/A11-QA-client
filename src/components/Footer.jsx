@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logo from '../assets/qestion-logo.png'
+import logo from '../assets/logo.png'
 
 const Footer = () => {
 
@@ -18,7 +18,7 @@ const Footer = () => {
             <div className="max-w-lg sm:mx-auto sm:text-center">
                 <img src={logo} className="w-32 sm:mx-auto" />
                 <p className="leading-relaxed mt-2 text-[15px]">
-                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                This is a React-based social media platform designed for question-and-answer-style interactions, similar to Quora. Users can post queries, recommend products or solutions, and interact with other user's posts.
                 </p>
             </div>
             <ul className="items-center justify-center mt-8 space-y-5 sm:flex sm:space-x-4 sm:space-y-0">

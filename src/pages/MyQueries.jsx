@@ -1,12 +1,19 @@
-import axios from "axios";
 // import useAuth from "../hooks/useAuth";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthProvider";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const MyQueries = () => {
-    const { myQueries, setMyQueries } = useContext(AuthContext)
+    const { user } = useContext(AuthContext)
+    const axiosConfig = useAxiosSecure();
+    const [myQueries, setMyQueries] =  useState([]);
+    useEffect(()=> {
+        axiosConfig.get(`/my-queries/${user.email}`)
+        .then(res => setMyQueries(res.data))
+    },[axiosConfig, user.email])
     
     const handelDelete = id => {
         Swal.fire({
@@ -19,7 +26,7 @@ const MyQueries = () => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(`https://qa-server-tau.vercel.app/my-queries-delete/${id}`)
+                axiosConfig.delete(`/my-queries-delete/${id}`)
                     .then(res => console.log(res.data))
                     .catch(err => console.log(err))
                 Swal.fire({

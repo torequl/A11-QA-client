@@ -1,19 +1,20 @@
-import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthProvider";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const UpdateQueries = () => {
+    const axiosConfig = useAxiosSecure();
     const {id} = useParams()
     // const itemData = useLoaderData()
     const { setMyQueries, user } = useContext(AuthContext)
     const [itemData, setItemData] = useState([])
 
     useEffect( ()=> {
-        axios.get(`https://qa-server-tau.vercel.app/details/${id}`)
+        axiosConfig.get(`/details/${id}`)
         .then(res => setItemData(res.data))
-    },[id])
+    },[axiosConfig, id])
 
     const navigate = useNavigate()
 
@@ -29,7 +30,7 @@ const UpdateQueries = () => {
         const timestamp = Date.now();
         const queryData = { boycottingReasonDetails, queryTitle, productBrand, productImageURL, productName, timestamp }
 
-        axios.put(`https://qa-server-tau.vercel.app/update/${id}`, queryData)
+        axiosConfig.put(`/update/${id}`, queryData)
             .then(res => {
                 if (res.data.modifiedCount > 0) {
                     Swal.fire({
@@ -39,7 +40,7 @@ const UpdateQueries = () => {
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    axios.get('https://qa-server-tau.vercel.app/my-queries', { params: { email: user?.email } })
+                    axiosConfig.get('/my-queries', { params: { email: user?.email } })
                         .then(res => setMyQueries(res.data))
                         navigate('/my-queries')
                 }

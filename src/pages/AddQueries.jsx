@@ -1,18 +1,24 @@
-import axios from "axios";
 import useAuth from "../hooks/useAuth";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import useAxiosSecure from "../hooks/useAxiosSecure";
+import useImageUpload from "../hooks/useImageUpload";
+import { useState } from "react";
 
 const AddQueries = () => {
     const navigate = useNavigate()
     const { user, setMyQueries } = useAuth();
+    const axiosConfig = useAxiosSecure()
+    const [isLoading, setIsLoading] = useState(false);
+    const {uploadImage} = useImageUpload();
 
-    const handelSubmit = e => {
+    const handelSubmit = async e => {
+        setIsLoading(true)
         e.preventDefault();
         const form = e.target;
+        const productImageURL = await uploadImage(form.image.files[0]);
         const boycottingReasonDetails = form.boycottingReasonDetails.value;
         const queryTitle = form.queryTitle.value;
-        const productImageURL = form.productImageURL.value;
         const productBrand = form.productBrand.value;
         const productName = form.productName.value;
         // -------------------------------------------------
@@ -22,9 +28,10 @@ const AddQueries = () => {
         const timestamp = Date.now();
         const queryData = { boycottingReasonDetails, queryTitle, productBrand, productImageURL, productName, userEmail, userName, timestamp, userPhoto, recommendationCount: 0 }
 
-        axios.post('https://qa-server-tau.vercel.app/add-query', queryData)
+        axiosConfig.post('/add-query', queryData)
             .then(res => {
                 if (res.data.insertedId) {
+                    setIsLoading(false)
                     Swal.fire({
                         position: "center",
                         icon: "success",
@@ -32,7 +39,8 @@ const AddQueries = () => {
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    axios.get('https://qa-server-tau.vercel.app/my-queries', { params: { email: user?.email } })
+                    // axiosConfig.get('/my-queries', { params: { email: user?.email } })
+                    axiosConfig.get(`/my-queries/${user?.email}`)
                         .then(res => setMyQueries(res.data))
                     navigate('/my-queries')
                     form.reset()
@@ -77,15 +85,15 @@ const AddQueries = () => {
                     {/* Product Image-URL */}
                     <div className="form-control w-[48%]">
                         <label className="label">
-                            <span className="label-text">Product Image-URL</span>
+                            <span className="label-text">Upload Product Image</span>
                         </label>
                         <input
-                            type="text" required
-                            name="productImageURL"
-                            className="input input-bordered text-black "
-                            placeholder="Enter Product Image-URL"
+                            type="file" required
+                            name="image"
+                            className="file-input file-input-neutral"
                         />
                     </div>
+
 
                     {/* Query Title */}
                     <div className="form-control w-[48%]">
@@ -133,7 +141,11 @@ const AddQueries = () => {
                 {/* Submit Button */}
                 <div className="form-control">
                     <button type="submit" className="btn btn-primary w-full">
-                        Add New Queries
+                        {
+                            isLoading ?
+                            <span className="loading loading-spinner loading-lg"></span> :
+                            'Add New Queries'
+                        }
                     </button>
                 </div>
             </form>

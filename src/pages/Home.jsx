@@ -1,23 +1,29 @@
 import 'swiper/css';
 import Slider from '../components/Slider';
 import RecentQueries from '../components/RecentQueries';
-import { useLoaderData } from 'react-router-dom';
 import Newsletter from '../components/Newsletter';
 import TeamSection from '../components/TeamSection';
+import { useEffect, useState } from 'react';
+import useAxiosSecure from '../hooks/useAxiosSecure';
+
 const Home = () => {
-    const loadedData = useLoaderData()
-    
+    const axiosConfig = useAxiosSecure()
+    const [loadedData, setLoaderData] = useState([]);
+
+    useEffect(()=> {
+        axiosConfig.get('/recent-queries')
+        .then(res => setLoaderData(res.data))
+    },[])
+
     return (
         <div>
-            <Slider/>
+            <Slider />
 
-            <RecentQueries loadedData={loadedData}/>
+            <RecentQueries loadedData={loadedData} />
 
-            <Newsletter/>
+            <Newsletter />
 
-            {/* <Feature/> */}
-
-            <TeamSection/>
+            <TeamSection />
         </div>
     );
 };

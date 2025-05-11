@@ -4,6 +4,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@plugin "daisyui";
+
 .hover:hover {
     color: #0000ff;
     font-weight: 500;

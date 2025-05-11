@@ -1,34 +1,15 @@
-import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../firebase.config";
-import axios from "axios";
-// import useAxiosInstance from "../useAxiosInstance";
-
+import useAxiosSecure from "../hooks/useAxiosSecure";
 // eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-
+    const axiosConfig = useAxiosSecure()
     const [loading, setLoading] = useState(true);
-
     const [user, setUser] = useState('');
-
     const googleProvider = new GoogleAuthProvider();
-
-    const [myQueries, setMyQueries] = useState([]);
-    
-
-    useEffect(() => {
-        axios.get('https://qa-server-tau.vercel.app/my-queries', { params: { email: user?.email } })
-        .then(response => setMyQueries(response.data))
-        .catch(error => {
-            console.error("Error loading recommendations:", error);
-            throw new Response("Failed to load data", { status: error.response?.status || 500 });
-        });
-    }, [user?.email]);
-
-
-
 
     // TODO: Sign Up with Email And Password
     const handleRegister = (email, password) => {
@@ -57,28 +38,16 @@ const AuthProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser)
-            if(currentUser?.email){
-                const user = {email: currentUser.email};
-                axios.post('https://qa-server-tau.vercel.app/jwt', user, {
-                    withCredentials: true,
-                })
-                .then(res => {
-                    console.log(res.data)
-                    setLoading(false)
-                })
+        const unsubscribe = onAuthStateChanged(auth, async currentUser => {
+            if (currentUser?.email) {
+                setUser(currentUser)
+                const email = currentUser.email;
+                await axiosConfig.post('/jwt', { email });
+            } else {
+                setUser(currentUser)
+                await axiosConfig.get('/logout');
             }
-            else {
-                axios.post('https://qa-server-tau.vercel.app/logout', {} ,{
-                    withCredentials: true,
-                })
-                .then(res => {
-                    console.log('logout', res.data)
-                    setLoading(false)
-                })
-            }
-
+            setLoading(false)
             return () => {
                 unsubscribe()
             }
@@ -93,8 +62,6 @@ const AuthProvider = ({ children }) => {
         updateUserProfile,
         user,
         loading,
-        setMyQueries,
-        myQueries,
     }
 
     return (

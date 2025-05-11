@@ -1,16 +1,17 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const MyRecommendations = () => {
     const [items, setItems] = useState([])
     const {email} = useParams()
+    const axiosConfig = useAxiosSecure();
 
     useEffect(()=>{
-        axios.get(`https://qa-server-tau.vercel.app/my-recommendation/${email}`)
+        axiosConfig.get(`/my-recommendation/${email}`)
         .then(res => setItems(res.data))
-    },[email])
+    },[axiosConfig, email])
 
 
     const handelDelete = async id => {
@@ -24,7 +25,7 @@ const MyRecommendations = () => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(`https://qa-server-tau.vercel.app/my-recommendation-delete/${id}`)
+                axiosConfig.delete(`/my-recommendation-delete/${id}`)
                     .then(res => console.log(res.data))
                     .catch(err => console.log(err))
                 Swal.fire({

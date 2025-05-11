@@ -1,11 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom';
-import logo from '../assets/qestion-logo.png'
+import logo from '../assets/logo.png'
 import { toast } from 'react-toastify';
 import useAuth from '../hooks/useAuth';
-import axios, { Axios } from 'axios';
+import useAxiosSecure from '../hooks/useAxiosSecure';
 
 const SignUp = () => {
-
+    const axiosConfig = useAxiosSecure();
     const navigate = useNavigate()
 
     const { handleRegister, updateUserProfile, handelGoogleLogin } = useAuth()
@@ -39,7 +39,7 @@ const SignUp = () => {
 
         handleRegister(email, password)
             .then((userData) => {
-                axios.post('https://qa-server-tau.vercel.app/users', user)
+                axiosConfig.post('/users', user)
                 .then(res => console.log(res.data))
                 toast.success(userData.user.email + " Sign-Up Successfully");
                 updateUserProfile({

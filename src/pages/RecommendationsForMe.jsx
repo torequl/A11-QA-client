@@ -1,20 +1,17 @@
-// import { useLoaderData } from "react-router-dom";
-
-import axios from "axios";
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const RecommendationsForMe = () => {
 
-    // const data = useLoaderData()
     const [data , setData] = useState([])
-
+    const axiosConfig = useAxiosSecure();
     const {email} = useParams()
 
     useEffect( ()=> {
-        axios.get(`https://qa-server-tau.vercel.app/recommendations-for-me/${email}`)
+        axiosConfig.get(`/recommendations-for-me/${email}`)
         .then(res => setData(res.data))
-    },[email])
+    },[axiosConfig, email])
 
 
     return (

@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import logo from '../assets/qestion-logo.png'
+import logo from '../assets/logo.png'
 import useAuth from '../hooks/useAuth';
 import { toast } from 'react-toastify';
 

@@ -4,10 +4,11 @@ import { FaRegThumbsUp, FaThumbsUp } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { MdGridOn } from "react-icons/md";
 import { LuGrid2X2 } from "react-icons/lu";
-import { axiosConfig } from "../axiosConfig";
+import useAxiosSecure from "../hooks/useAxiosSecure";
+import { Fade } from "react-awesome-reveal";
 
 const Queries = () => {
-
+    const axiosConfig = useAxiosSecure();
     // const queries = useLoaderData()
     const [queries, setQueries] = useState([])
 
@@ -18,7 +19,7 @@ const Queries = () => {
     useEffect(() => {
         axiosConfig.get('/all-queries')
             .then(res => setQueries(res.data))
-    }, [])
+    }, [axiosConfig])
 
     const filteredQueries = queries.filter((product) => {
         return product.productName.toLowerCase().includes(searchTerm.toLowerCase())
@@ -31,7 +32,6 @@ const Queries = () => {
         // setQueries(filteredQueries)
     };
 
-    console.log(active);
 
     return (
         <section className="mx-auto px-4 max-w-screen-xl">
@@ -50,7 +50,7 @@ const Queries = () => {
 
             <div className="mx-auto flex items-center flex-col md:flex-row gap-4 justify-between mt-12">
                 <div className="relative">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="absolute top-0 bottom-0 w-6 h-6 my-auto text-gray-400 left-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="absolute top-0 bottom-0 w-6 h-6 my-auto text-gray-400 right-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                     <input
@@ -58,7 +58,7 @@ const Queries = () => {
                         onChange={handleSearchChange}
                         type="text"
                         placeholder="Search"
-                        className="py-3 pl-12 pr-4 text-gray-500 border rounded-md outline-none bg-gray-50 focus:bg-white focus:border-indigo-600"
+                        className="py-3 px-4 text-gray-500 border rounded-md outline-none bg-gray-50 focus:bg-white focus:border-indigo-600"
                     />
                 </div>
             <button onClick={() => setActive(!active)} 
@@ -70,7 +70,8 @@ const Queries = () => {
             <div className={`grid gap-4 ${active ? 'grid-cols-1 md:grid-cols-3' : 'grid-cols-1 md:grid-cols-2'}`}>
                 {
                     filteredQueries.map((item, i) => (
-                        <article className="max-w-md mx-auto w-full mt-10 rounded-md" key={i}>
+                        <Fade  key={i}>
+                            <article className="max-w-md mx-auto w-full mt-10 rounded-md">
                             <div className="max-w-sm mx-auto bg-white border rounded-lg">
                                 <img
                                     className="w-full h-48 object-contain"
@@ -101,6 +102,7 @@ const Queries = () => {
                                 </div>
                             </div>
                         </article>
+                        </Fade>
                     ))
                 }
             </div>
